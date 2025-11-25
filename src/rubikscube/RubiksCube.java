@@ -30,7 +30,7 @@ public class RubiksCube {
                 c[RIGHT][i][j] = 'B';
                 c[LEFT][i][j] = 'G';
                 c[UP][i][j] = 'O';
-                c[DONW][i][j] = 'R';
+                c[DOWN][i][j] = 'R';
             }
         }
         return c;
@@ -92,7 +92,7 @@ public class RubiksCube {
                     setColor(FRONT,i,j,s[i + 3].charAt(j + 3));
                     setColor(RIGHT,i,j,s[i + 3].charAt(j + 6));
                     setColor(BACK,i,j,s[i + 3].charAt(j + 9));
-                    setColor(DONW,i,j,s[i + 6].charAt(j + 3));
+                    setColor(DOWN,i,j,s[i + 6].charAt(j + 3));
                 }
         } catch (Exception ex) {
             throw new IncorrectFormatException(ex.toString());
@@ -125,30 +125,30 @@ public class RubiksCube {
     private void moveF() {
         rotateOneSide(FRONT);
         // update the four faces adjacent to F
-        rotate4(new int[]{UP, 2, 0}, new int[]{RIGHT, 0, 0}, new int[]{DONW, 0, 2}, new int[]{LEFT, 2, 2});
-        rotate4(new int[]{UP, 2, 1}, new int[]{RIGHT, 1, 0}, new int[]{DONW, 0, 1}, new int[]{LEFT, 1, 2});
-        rotate4(new int[]{UP, 2, 2}, new int[]{RIGHT, 2, 0}, new int[]{DONW, 0, 0}, new int[]{LEFT, 0, 2});
+        rotate4(new int[]{UP, 2, 0}, new int[]{RIGHT, 0, 0}, new int[]{DOWN, 0, 2}, new int[]{LEFT, 2, 2});
+        rotate4(new int[]{UP, 2, 1}, new int[]{RIGHT, 1, 0}, new int[]{DOWN, 0, 1}, new int[]{LEFT, 1, 2});
+        rotate4(new int[]{UP, 2, 2}, new int[]{RIGHT, 2, 0}, new int[]{DOWN, 0, 0}, new int[]{LEFT, 0, 2});
     }
     private void moveB() {
         rotateOneSide(BACK);
         // update the four faces adjacent to B
-        rotate4(new int[]{UP, 0, 2}, new int[]{LEFT, 0, 0}, new int[]{DONW, 2, 0}, new int[]{RIGHT, 2, 2});
-        rotate4(new int[]{UP, 0, 1}, new int[]{LEFT, 1, 0}, new int[]{DONW, 2, 1}, new int[]{RIGHT, 1, 2});
-        rotate4(new int[]{UP, 0, 0}, new int[]{LEFT, 2, 0}, new int[]{DONW, 2, 2}, new int[]{RIGHT, 0, 2});
+        rotate4(new int[]{UP, 0, 2}, new int[]{LEFT, 0, 0}, new int[]{DOWN, 2, 0}, new int[]{RIGHT, 2, 2});
+        rotate4(new int[]{UP, 0, 1}, new int[]{LEFT, 1, 0}, new int[]{DOWN, 2, 1}, new int[]{RIGHT, 1, 2});
+        rotate4(new int[]{UP, 0, 0}, new int[]{LEFT, 2, 0}, new int[]{DOWN, 2, 2}, new int[]{RIGHT, 0, 2});
     }
     private void moveR() {
         rotateOneSide(RIGHT);
         // update the four faces adjacent to R
-        rotate4(new int[]{FRONT, 2, 2}, new int[]{UP, 2, 2}, new int[]{BACK, 0, 0}, new int[]{DONW, 2, 2});
-        rotate4(new int[]{FRONT, 1, 2}, new int[]{UP, 1, 2}, new int[]{BACK, 1, 0}, new int[]{DONW, 1, 2});
-        rotate4(new int[]{FRONT, 0, 2}, new int[]{UP, 0, 2}, new int[]{BACK, 2, 0}, new int[]{DONW, 0, 2});
+        rotate4(new int[]{FRONT, 2, 2}, new int[]{UP, 2, 2}, new int[]{BACK, 0, 0}, new int[]{DOWN, 2, 2});
+        rotate4(new int[]{FRONT, 1, 2}, new int[]{UP, 1, 2}, new int[]{BACK, 1, 0}, new int[]{DOWN, 1, 2});
+        rotate4(new int[]{FRONT, 0, 2}, new int[]{UP, 0, 2}, new int[]{BACK, 2, 0}, new int[]{DOWN, 0, 2});
     }
     private void moveL() {
         rotateOneSide(LEFT);
         // update the four faces adjacent to L
-        rotate4(new int[]{BACK, 2, 2}, new int[]{UP, 0, 0}, new int[]{FRONT, 0, 0}, new int[]{DONW, 0, 0});
-        rotate4(new int[]{BACK, 1, 2}, new int[]{UP, 1, 0}, new int[]{FRONT, 1, 0}, new int[]{DONW, 1, 0});
-        rotate4(new int[]{BACK, 0, 2}, new int[]{UP, 2, 0}, new int[]{FRONT, 2, 0}, new int[]{DONW, 2, 0});
+        rotate4(new int[]{BACK, 2, 2}, new int[]{UP, 0, 0}, new int[]{FRONT, 0, 0}, new int[]{DOWN, 0, 0});
+        rotate4(new int[]{BACK, 1, 2}, new int[]{UP, 1, 0}, new int[]{FRONT, 1, 0}, new int[]{DOWN, 1, 0});
+        rotate4(new int[]{BACK, 0, 2}, new int[]{UP, 2, 0}, new int[]{FRONT, 2, 0}, new int[]{DOWN, 2, 0});
     }
     private void moveU() {
         rotateOneSide(UP);
@@ -158,7 +158,7 @@ public class RubiksCube {
         rotate4(new int[]{BACK, 0, 2}, new int[]{RIGHT, 0, 2}, new int[]{FRONT, 0, 2}, new int[]{LEFT, 0, 2});
     }
     private void moveD() {
-        rotateOneSide(DONW);
+        rotateOneSide(DOWN);
         // update the four faces adjacent to D
         rotate4(new int[]{LEFT, 2, 0}, new int[]{FRONT, 2, 0}, new int[]{RIGHT, 2, 0}, new int[]{BACK, 2, 0});
         rotate4(new int[]{LEFT, 2, 1}, new int[]{FRONT, 2, 1}, new int[]{RIGHT, 2, 1}, new int[]{BACK, 2, 1});
@@ -256,7 +256,7 @@ public class RubiksCube {
 
         for (int i = 0; i < 3; i++) {
             sb.append("   ");
-            sb.append("" + state[DONW][i][0] + state[DONW][i][1] + state[DONW][i][2] + "\n");
+            sb.append("" + state[DOWN][i][0] + state[DOWN][i][1] + state[DOWN][i][2] + "\n");
         }
 
         return sb.toString();

@@ -1,12 +1,14 @@
 package rubikscube;
 
 import java.lang.invoke.MethodHandles;
-import java.utils.PriorityQueue
+import java.util.PriorityQueue;
+import java.io.*;
+
 public class Solver {
 
     private RubiksCube start;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IncorrectFormatException, IOException {
 //		System.out.println("number of arguments: " + args.length);
 //		for (int i = 0; i < args.length; i++) {
 //			System.out.println(args[i]);
@@ -21,13 +23,13 @@ public class Solver {
 		// TODO
 		File input = new File(args[0]);
 
-        RubiksCube start = new RubiksCube(input); // throws IncorrectFormatException if input file is invalid
+        RubiksCube start = new RubiksCube(args[0]); // throws IncorrectFormatException if input file is invalid
 
-        PriortityQueue<RubiksCube> openQueue = new PriorityqQueue();
+        PriorityQueue<RubiksCube> openQueue = new PriorityQueue<>();
         // A* Search:
         openQueue.add(start);
         while (openQueue.isEmpty()) {
-            RubiksCube v = openQueue.getMin();
+            RubiksCube v = openQueue.remove();
             // get array of vertex's neighbors method
             // for (each neighbor u) {
             //      if (u == target/solvedState) {
