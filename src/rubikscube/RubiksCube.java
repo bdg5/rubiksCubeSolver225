@@ -10,10 +10,10 @@ public class RubiksCube {
     private static int RIGHT = 2;
     private static int LEFT = 3;
     private static int UP = 4;
-    private static int DOWN = 5;
+    private static int DONW = 5;
 
     // current state of the cube
-    private char state[][][];
+    char state[][][]; // Had to make this unprivate so that we can use it in solver
 
 
     /**
@@ -30,7 +30,7 @@ public class RubiksCube {
                 c[RIGHT][i][j] = 'B';
                 c[LEFT][i][j] = 'G';
                 c[UP][i][j] = 'O';
-                c[DOWN][i][j] = 'R';
+                c[DONW][i][j] = 'R';
             }
         }
         return c;
@@ -92,7 +92,7 @@ public class RubiksCube {
                     setColor(FRONT,i,j,s[i + 3].charAt(j + 3));
                     setColor(RIGHT,i,j,s[i + 3].charAt(j + 6));
                     setColor(BACK,i,j,s[i + 3].charAt(j + 9));
-                    setColor(DOWN,i,j,s[i + 6].charAt(j + 3));
+                    setColor(DONW,i,j,s[i + 6].charAt(j + 3));
                 }
         } catch (Exception ex) {
             throw new IncorrectFormatException(ex.toString());
@@ -125,30 +125,30 @@ public class RubiksCube {
     private void moveF() {
         rotateOneSide(FRONT);
         // update the four faces adjacent to F
-        rotate4(new int[]{UP, 2, 0}, new int[]{RIGHT, 0, 0}, new int[]{DOWN, 0, 2}, new int[]{LEFT, 2, 2});
-        rotate4(new int[]{UP, 2, 1}, new int[]{RIGHT, 1, 0}, new int[]{DOWN, 0, 1}, new int[]{LEFT, 1, 2});
-        rotate4(new int[]{UP, 2, 2}, new int[]{RIGHT, 2, 0}, new int[]{DOWN, 0, 0}, new int[]{LEFT, 0, 2});
+        rotate4(new int[]{UP, 2, 0}, new int[]{RIGHT, 0, 0}, new int[]{DONW, 0, 2}, new int[]{LEFT, 2, 2});
+        rotate4(new int[]{UP, 2, 1}, new int[]{RIGHT, 1, 0}, new int[]{DONW, 0, 1}, new int[]{LEFT, 1, 2});
+        rotate4(new int[]{UP, 2, 2}, new int[]{RIGHT, 2, 0}, new int[]{DONW, 0, 0}, new int[]{LEFT, 0, 2});
     }
     private void moveB() {
         rotateOneSide(BACK);
         // update the four faces adjacent to B
-        rotate4(new int[]{UP, 0, 2}, new int[]{LEFT, 0, 0}, new int[]{DOWN, 2, 0}, new int[]{RIGHT, 2, 2});
-        rotate4(new int[]{UP, 0, 1}, new int[]{LEFT, 1, 0}, new int[]{DOWN, 2, 1}, new int[]{RIGHT, 1, 2});
-        rotate4(new int[]{UP, 0, 0}, new int[]{LEFT, 2, 0}, new int[]{DOWN, 2, 2}, new int[]{RIGHT, 0, 2});
+        rotate4(new int[]{UP, 0, 2}, new int[]{LEFT, 0, 0}, new int[]{DONW, 2, 0}, new int[]{RIGHT, 2, 2});
+        rotate4(new int[]{UP, 0, 1}, new int[]{LEFT, 1, 0}, new int[]{DONW, 2, 1}, new int[]{RIGHT, 1, 2});
+        rotate4(new int[]{UP, 0, 0}, new int[]{LEFT, 2, 0}, new int[]{DONW, 2, 2}, new int[]{RIGHT, 0, 2});
     }
     private void moveR() {
         rotateOneSide(RIGHT);
         // update the four faces adjacent to R
-        rotate4(new int[]{FRONT, 2, 2}, new int[]{UP, 2, 2}, new int[]{BACK, 0, 0}, new int[]{DOWN, 2, 2});
-        rotate4(new int[]{FRONT, 1, 2}, new int[]{UP, 1, 2}, new int[]{BACK, 1, 0}, new int[]{DOWN, 1, 2});
-        rotate4(new int[]{FRONT, 0, 2}, new int[]{UP, 0, 2}, new int[]{BACK, 2, 0}, new int[]{DOWN, 0, 2});
+        rotate4(new int[]{FRONT, 2, 2}, new int[]{UP, 2, 2}, new int[]{BACK, 0, 0}, new int[]{DONW, 2, 2});
+        rotate4(new int[]{FRONT, 1, 2}, new int[]{UP, 1, 2}, new int[]{BACK, 1, 0}, new int[]{DONW, 1, 2});
+        rotate4(new int[]{FRONT, 0, 2}, new int[]{UP, 0, 2}, new int[]{BACK, 2, 0}, new int[]{DONW, 0, 2});
     }
     private void moveL() {
         rotateOneSide(LEFT);
         // update the four faces adjacent to L
-        rotate4(new int[]{BACK, 2, 2}, new int[]{UP, 0, 0}, new int[]{FRONT, 0, 0}, new int[]{DOWN, 0, 0});
-        rotate4(new int[]{BACK, 1, 2}, new int[]{UP, 1, 0}, new int[]{FRONT, 1, 0}, new int[]{DOWN, 1, 0});
-        rotate4(new int[]{BACK, 0, 2}, new int[]{UP, 2, 0}, new int[]{FRONT, 2, 0}, new int[]{DOWN, 2, 0});
+        rotate4(new int[]{BACK, 2, 2}, new int[]{UP, 0, 0}, new int[]{FRONT, 0, 0}, new int[]{DONW, 0, 0});
+        rotate4(new int[]{BACK, 1, 2}, new int[]{UP, 1, 0}, new int[]{FRONT, 1, 0}, new int[]{DONW, 1, 0});
+        rotate4(new int[]{BACK, 0, 2}, new int[]{UP, 2, 0}, new int[]{FRONT, 2, 0}, new int[]{DONW, 2, 0});
     }
     private void moveU() {
         rotateOneSide(UP);
@@ -158,7 +158,7 @@ public class RubiksCube {
         rotate4(new int[]{BACK, 0, 2}, new int[]{RIGHT, 0, 2}, new int[]{FRONT, 0, 2}, new int[]{LEFT, 0, 2});
     }
     private void moveD() {
-        rotateOneSide(DOWN);
+        rotateOneSide(DONW);
         // update the four faces adjacent to D
         rotate4(new int[]{LEFT, 2, 0}, new int[]{FRONT, 2, 0}, new int[]{RIGHT, 2, 0}, new int[]{BACK, 2, 0});
         rotate4(new int[]{LEFT, 2, 1}, new int[]{FRONT, 2, 1}, new int[]{RIGHT, 2, 1}, new int[]{BACK, 2, 1});
@@ -166,39 +166,46 @@ public class RubiksCube {
     }   
 
     // Our scouting methods to essentially create the graph as we do a move
-    public RubiksCube getNeighborF() {
-        RubiksCube neighbor = new RubiksCube(this);
-        neighbor.moveF();                        
-        return neighbor;                        
-    }
+    // public RubiksCube getNeighborF() {
+    //     RubiksCube neighbor = new RubiksCube(this);
+    //     neighbor.moveF();                        
+    //     return neighbor;                        
+    // }
 
-    public RubiksCube getNeighborB() {
-        RubiksCube neighbor = new RubiksCube(this);
-        neighbor.moveB();
-        return neighbor;
-    }
+    // public RubiksCube getNeighborB() {
+    //     RubiksCube neighbor = new RubiksCube(this);
+    //     neighbor.moveB();
+    //     return neighbor;
+    // }
 
-    public RubiksCube getNeighborL() {
-        RubiksCube neighbor = new RubiksCube(this);
-        neighbor.moveL();
-        return neighbor;
-    }
+    // public RubiksCube getNeighborL() {
+    //     RubiksCube neighbor = new RubiksCube(this);
+    //     neighbor.moveL();
+    //     return neighbor;
+    // }
 
-    public RubiksCube getNeighborR() {
-        RubiksCube neighbor = new RubiksCube(this);
-        neighbor.moveR();
-        return neighbor;
-    }
+    // public RubiksCube getNeighborR() {
+    //     RubiksCube neighbor = new RubiksCube(this);
+    //     neighbor.moveR();
+    //     return neighbor;
+    // }
 
-    public RubiksCube getNeighborU() {
-        RubiksCube neighbor = new RubiksCube(this);
-        neighbor.moveU();
-        return neighbor;
-    }
+    // public RubiksCube getNeighborU() {
+    //     RubiksCube neighbor = new RubiksCube(this);
+    //     neighbor.moveU();
+    //     return neighbor;
+    // }
 
-    public RubiksCube getNeighborD() {
+    // public RubiksCube getNeighborD() {
+    //     RubiksCube neighbor = new RubiksCube(this);
+    //     neighbor.moveD(); 
+    //     return neighbor;
+    // }
+
+    // Above functions are redundant we only need 1 get neighbor function we already have a logic box makeMove
+    public RubiksCube getNeighbor( char c ) {
         RubiksCube neighbor = new RubiksCube(this);
-        neighbor.moveD(); 
+        neighbor.makeMove(c);
         return neighbor;
     }
 
@@ -256,7 +263,7 @@ public class RubiksCube {
 
         for (int i = 0; i < 3; i++) {
             sb.append("   ");
-            sb.append("" + state[DOWN][i][0] + state[DOWN][i][1] + state[DOWN][i][2] + "\n");
+            sb.append("" + state[DONW][i][0] + state[DONW][i][1] + state[DONW][i][2] + "\n");
         }
 
         return sb.toString();
@@ -271,7 +278,7 @@ public class RubiksCube {
     }
 
     @Override
-    public int hashcode() {
+    public int hashCode() {
         return Arrays.deepHashCode(this.state);
     }
 
@@ -289,28 +296,6 @@ public class RubiksCube {
             ord++;
         }
         return ord;
-    }
-
-    public int getHeuristic() {
-        // Current Heruistic implementation: Num of incorrect corners
-        char correctColour;
-        int incorrectNum = 0;
-        for (int i = 0; i < 6; i++) {
-            if (i = FRONT) correctColour = 'W';
-            if (i = BACK) correctColour = 'Y';
-            if (i = RIGHT) correctColour = 'B';
-            if (i = LEFT) correctColour = 'G';
-            if (i = UP) correctColour = 'O';
-            if (i = DOWN) correctColour = 'R';
-
-            if (state[i][0][0] != correctColour) incorrectNum++;
-            if (state[i][0][2] != correctColour) incorrectNum++;
-            if (state[i][2][0] != correctColour) incorrectNum++;
-            if (state[i][2][2] != correctColour) incorrectNum++;
-        }
-        // 9 comes from the maximum number of corners fixed during turn (3) * num of stickers in each corner
-        // Need highest number so we dont overestimate the heuristc
-        return (int)Math.ceil(incorrectNum / 9);
     }
 
     public static void main(String[] args) {
