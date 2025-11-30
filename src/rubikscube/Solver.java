@@ -21,13 +21,15 @@ public class Solver {
 		int Heuristic; // H
 		RubiksCube CurrState; // This is state of the cube
 		String path; // Stores the instructions that it took to get to this specific state
+        char lastMove;
 
-		public SearchNode( int DistFromStart, int Heuristic, RubiksCube Curr_State, String path){
+		public SearchNode( int DistFromStart, int Heuristic, RubiksCube Curr_State, String path, char lastMove){
 			this.DistFromStart = DistFromStart;
 			this.Heuristic = Heuristic;
 			this.CurrState = Curr_State;
 			this.path = path;
 			Cost = DistFromStart + Heuristic;
+            this.lastMove = lastMove;
 		}
 
 		public int compareTo( SearchNode other ){
@@ -73,10 +75,9 @@ public class Solver {
     }
 	public static int calculateHeuristic( RubiksCube Cube ){
         // Heuristic v2.0: counts the number of edge and corner pieces in the wrong spot
-        int incorrectNum = 0; // Number of incorrect pieces
 
-        incorrectNum += numOfIncorrectEdges(Cube);
-        incorrectNum += numOfIncorrectCorners(Cube);
+        int incorrectEdges = numOfIncorrectEdges(Cube);
+        int incorrectCorners = numOfIncorrectCorners(Cube);
 
         // *DEPRECATED* Heuristic v1.0
 //        char correctColour = 'W'; // Just set to W to initialize
@@ -98,8 +99,13 @@ public class Solver {
 		// (UPDATE) If you you turn a face of solved cube it displaces 4 corners. 
 		// Each corner has 3 stickers so 4*3 = 12 incorrect ceil(12/9) = 2 should be 1 because we know its only 1 move away
 
-        return (int)Math.ceil(incorrectNum / 8.0); // 2.0: Divide by 8 because we would fix at most 8 pieces at a time
+        return Math.max(incorrectEdges / 4, incorrectCorners / 4); // 2.0: one move changes at most 4 edges and 4 corners
 	}
+
+    private static boolean isOpposite(char a, char b) {
+        return (a == 'U' && b == 'D') || (a == 'D' && b == 'U') || (a == 'L' && b == 'R') || (a == 'R' && b == 'L') ||
+                (a == 'F' && b == 'B') || (a == 'B' && b == 'F');
+    }
 	public static void main(String[] args) throws IOException, IncorrectFormatException {
 //		System.out.println("number of arguments: " + args.length);
 //		for (int i = 0; i < args.length; i++) {
@@ -115,7 +121,6 @@ public class Solver {
 			return;
 		}
 		
-		
 		// TODO
 		//File input = new File(args[0]);
 		String Input_Filename = args[0];
@@ -127,22 +132,22 @@ public class Solver {
 
 		String SolvedPath = "";
 		// Init the start node
-		SearchNode StartNode = new SearchNode( 0, StartHeuristic, StartCube, StartPath );
+		SearchNode StartNode = new SearchNode( 0, StartHeuristic, StartCube, StartPath , '\0');
 
 		Queue.add(StartNode);
 
 		char[] moves = {'F', 'B', 'L', 'R', 'U', 'D'}; // For the inner Loop
 
 		while( !Queue.isEmpty() ){
-			SearchNode Current = Queue.poll();
+			SearchNode Current = Queue.poll(); // removes from queue
 			visited.add( Current.CurrState );
 			for( int i = 0; i < 6; i++ ){
+                //if (moves[i] == Current.lastMove || isOpposite(moves[i], Current.lastMove)) continue; // skips same move from last time and if move goes backword
 				RubiksCube CurrentNeighbour = Current.CurrState.getNeighbor( moves[i] );
 				if( !visited.contains( CurrentNeighbour ) ){
 					// If this node has not been visited yet then add it to the priority queue
-					SearchNode NeighbourNode = new SearchNode( Current.DistFromStart + 1, calculateHeuristic(CurrentNeighbour), CurrentNeighbour, Current.path + moves[i] );
+					SearchNode NeighbourNode = new SearchNode( Current.DistFromStart + 1, calculateHeuristic(CurrentNeighbour), CurrentNeighbour, Current.path + moves[i], moves[i] );
 					Queue.add( NeighbourNode );
-					visited.add( CurrentNeighbour );
 					if( CurrentNeighbour.hashCode() == solvedHash ){
 						SolvedPath = NeighbourNode.path;
 						// args[1] = SolvedPath; args[1] only houses the name of the file that you need to write to 
